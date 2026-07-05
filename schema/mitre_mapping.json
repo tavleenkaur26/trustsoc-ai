@@ -1,0 +1,34 @@
+{
+  "_notes": "Static attack-type -> ATT&CK technique lookup. This is a deliberate 20-day scoping decision (see project README): per-flow contextual MITRE mapping is future work. Mappings reflect the most common technique(s) associated with each traffic pattern at flow-statistics granularity, not a certain classification of intent.",
+  "Benign": [],
+  "DDoS": [
+    {"technique_id": "T1498", "technique_name": "Network Denial of Service", "tactic": "Impact"}
+  ],
+  "DoS Hulk": [
+    {"technique_id": "T1499.002", "technique_name": "Endpoint DoS: Service Exhaustion Flood", "tactic": "Impact"}
+  ],
+  "DoS GoldenEye": [
+    {"technique_id": "T1499.002", "technique_name": "Endpoint DoS: Service Exhaustion Flood", "tactic": "Impact"}
+  ],
+  "DoS slowloris": [
+    {"technique_id": "T1499.003", "technique_name": "Endpoint DoS: Application Exhaustion Flood", "tactic": "Impact"}
+  ],
+  "DoS Slowhttptest": [
+    {"technique_id": "T1499.003", "technique_name": "Endpoint DoS: Application Exhaustion Flood", "tactic": "Impact"}
+  ],
+  "PortScan": [
+    {"technique_id": "T1046", "technique_name": "Network Service Discovery", "tactic": "Discovery"}
+  ],
+  "FTP-Patator": [
+    {"technique_id": "T1110.001", "technique_name": "Brute Force: Password Guessing", "tactic": "Credential Access"}
+  ],
+  "SSH-Patator": [
+    {"technique_id": "T1110.001", "technique_name": "Brute Force: Password Guessing", "tactic": "Credential Access"}
+  ],
+  "Bot": [
+    {"technique_id": "T1071.001", "technique_name": "Application Layer Protocol: Web Protocols (C2)", "tactic": "Command and Control"}
+  ],
+  "Web Attack": [
+    {"technique_id": "T1190", "technique_name": "Exploit Public-Facing Application", "tactic": "Initial Access"}
+  ]
+}

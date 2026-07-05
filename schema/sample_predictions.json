@@ -1,0 +1,898 @@
+[
+  {
+    "flow_id": 10432,
+    "predicted_class": "DDoS",
+    "confidence": 0.998,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 118,
+        "shap_value": 0.41
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 3,
+        "shap_value": 0.33
+      },
+      {
+        "feature": "Fwd Packets/s",
+        "value": 25423.7,
+        "shap_value": 0.29
+      },
+      {
+        "feature": "Packet Length Std",
+        "value": 12.4,
+        "shap_value": 0.18
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": 256,
+        "shap_value": 0.09
+      }
+    ]
+  },
+  {
+    "flow_id": 22187,
+    "predicted_class": "PortScan",
+    "confidence": 0.94,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 46,
+        "shap_value": 0.37
+      },
+      {
+        "feature": "Total Backward Packets",
+        "value": 0,
+        "shap_value": 0.31
+      },
+      {
+        "feature": "SYN Flag Count",
+        "value": 1,
+        "shap_value": 0.24
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 0.0,
+        "shap_value": 0.15
+      },
+      {
+        "feature": "Bwd Packets/s",
+        "value": 0.0,
+        "shap_value": 0.11
+      }
+    ]
+  },
+  {
+    "flow_id": 5591,
+    "predicted_class": "SSH-Patator",
+    "confidence": 0.987,
+    "top_shap_features": [
+      {
+        "feature": "Fwd IAT Mean",
+        "value": 812.5,
+        "shap_value": 0.28
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 14,
+        "shap_value": 0.26
+      },
+      {
+        "feature": "Flow Duration",
+        "value": 9820,
+        "shap_value": 0.21
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 48.2,
+        "shap_value": 0.14
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 1,
+        "shap_value": 0.08
+      }
+    ]
+  },
+  {
+    "flow_id": 30044,
+    "predicted_class": "Bot",
+    "confidence": 0.91,
+    "top_shap_features": [
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 210.3,
+        "shap_value": 0.19
+      },
+      {
+        "feature": "Packet Length Variance",
+        "value": 402.1,
+        "shap_value": 0.17
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 5321.9,
+        "shap_value": 0.15
+      },
+      {
+        "feature": "Avg Bwd Segment Size",
+        "value": 198.7,
+        "shap_value": 0.12
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 3200000,
+        "shap_value": 0.1
+      }
+    ]
+  },
+  {
+    "flow_id": 30099,
+    "predicted_class": "Bot",
+    "confidence": 0.58,
+    "top_shap_features": [
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 95.1,
+        "shap_value": 0.12
+      },
+      {
+        "feature": "Packet Length Variance",
+        "value": 88.4,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 210.2,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "Avg Bwd Segment Size",
+        "value": 90.0,
+        "shap_value": 0.07
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 15000,
+        "shap_value": 0.05
+      }
+    ]
+  },
+  {
+    "flow_id": 18823,
+    "predicted_class": "Web Attack",
+    "confidence": 0.96,
+    "top_shap_features": [
+      {
+        "feature": "Fwd Packets Length Total",
+        "value": 1842,
+        "shap_value": 0.31
+      },
+      {
+        "feature": "Flow Bytes/s",
+        "value": 88423.6,
+        "shap_value": 0.22
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 9,
+        "shap_value": 0.19
+      },
+      {
+        "feature": "Fwd Packet Length Max",
+        "value": 512,
+        "shap_value": 0.13
+      },
+      {
+        "feature": "Bwd Packet Length Max",
+        "value": 1200,
+        "shap_value": 0.08
+      }
+    ]
+  },
+  {
+    "flow_id": 40012,
+    "predicted_class": "Benign",
+    "confidence": 0.999,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 2450000,
+        "shap_value": 0.22
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 40,
+        "shap_value": 0.15
+      },
+      {
+        "feature": "Bwd Packets/s",
+        "value": 12.3,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 500000,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 1,
+        "shap_value": 0.05
+      }
+    ]
+  },
+  {
+    "flow_id": 50001,
+    "predicted_class": "DoS Hulk",
+    "confidence": 0.995,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 890,
+        "shap_value": 0.35
+      },
+      {
+        "feature": "Fwd Packets/s",
+        "value": 18320.5,
+        "shap_value": 0.3
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 6,
+        "shap_value": 0.22
+      },
+      {
+        "feature": "Flow Bytes/s",
+        "value": 210044.2,
+        "shap_value": 0.15
+      },
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 0.0,
+        "shap_value": 0.09
+      }
+    ]
+  },
+  {
+    "flow_id": 50002,
+    "predicted_class": "DoS Hulk",
+    "confidence": 0.83,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 3200,
+        "shap_value": 0.18
+      },
+      {
+        "feature": "Fwd Packets/s",
+        "value": 4210.1,
+        "shap_value": 0.14
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 11,
+        "shap_value": 0.11
+      },
+      {
+        "feature": "Flow Bytes/s",
+        "value": 55210.8,
+        "shap_value": 0.09
+      },
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 12.4,
+        "shap_value": 0.06
+      }
+    ]
+  },
+  {
+    "flow_id": 51001,
+    "predicted_class": "DoS GoldenEye",
+    "confidence": 0.97,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 1500,
+        "shap_value": 0.29
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 320.5,
+        "shap_value": 0.24
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 8,
+        "shap_value": 0.18
+      },
+      {
+        "feature": "Fwd Packets/s",
+        "value": 5333.3,
+        "shap_value": 0.13
+      },
+      {
+        "feature": "SYN Flag Count",
+        "value": 1,
+        "shap_value": 0.07
+      }
+    ]
+  },
+  {
+    "flow_id": 52001,
+    "predicted_class": "DoS slowloris",
+    "confidence": 0.96,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 9500000,
+        "shap_value": 0.33
+      },
+      {
+        "feature": "Fwd IAT Mean",
+        "value": 950000.0,
+        "shap_value": 0.27
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 5,
+        "shap_value": 0.16
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 15.0,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "Active Mean",
+        "value": 8000000.0,
+        "shap_value": 0.08
+      }
+    ]
+  },
+  {
+    "flow_id": 52002,
+    "predicted_class": "DoS slowloris",
+    "confidence": 0.68,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 1200000,
+        "shap_value": 0.14
+      },
+      {
+        "feature": "Fwd IAT Mean",
+        "value": 120000.0,
+        "shap_value": 0.11
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 7,
+        "shap_value": 0.09
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 18.2,
+        "shap_value": 0.07
+      },
+      {
+        "feature": "Active Mean",
+        "value": 900000.0,
+        "shap_value": 0.05
+      }
+    ]
+  },
+  {
+    "flow_id": 53001,
+    "predicted_class": "DoS Slowhttptest",
+    "confidence": 0.94,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 7200000,
+        "shap_value": 0.3
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 450000.0,
+        "shap_value": 0.22
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 6,
+        "shap_value": 0.17
+      },
+      {
+        "feature": "Active Std",
+        "value": 300000.0,
+        "shap_value": 0.12
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 22.1,
+        "shap_value": 0.06
+      }
+    ]
+  },
+  {
+    "flow_id": 54001,
+    "predicted_class": "FTP-Patator",
+    "confidence": 0.99,
+    "top_shap_features": [
+      {
+        "feature": "Fwd IAT Mean",
+        "value": 650.2,
+        "shap_value": 0.31
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 12,
+        "shap_value": 0.24
+      },
+      {
+        "feature": "Flow Duration",
+        "value": 8100,
+        "shap_value": 0.19
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 40.5,
+        "shap_value": 0.11
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 1,
+        "shap_value": 0.06
+      }
+    ]
+  },
+  {
+    "flow_id": 54002,
+    "predicted_class": "FTP-Patator",
+    "confidence": 0.61,
+    "top_shap_features": [
+      {
+        "feature": "Fwd IAT Mean",
+        "value": 210.2,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 4,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "Flow Duration",
+        "value": 3100,
+        "shap_value": 0.07
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 30.1,
+        "shap_value": 0.05
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 0,
+        "shap_value": 0.03
+      }
+    ]
+  },
+  {
+    "flow_id": 55001,
+    "predicted_class": "PortScan",
+    "confidence": 0.99,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 12,
+        "shap_value": 0.4
+      },
+      {
+        "feature": "Total Backward Packets",
+        "value": 0,
+        "shap_value": 0.33
+      },
+      {
+        "feature": "SYN Flag Count",
+        "value": 1,
+        "shap_value": 0.2
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 0.0,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "Bwd Packets/s",
+        "value": 0.0,
+        "shap_value": 0.05
+      }
+    ]
+  },
+  {
+    "flow_id": 55002,
+    "predicted_class": "PortScan",
+    "confidence": 0.71,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 300,
+        "shap_value": 0.15
+      },
+      {
+        "feature": "Total Backward Packets",
+        "value": 1,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "SYN Flag Count",
+        "value": 1,
+        "shap_value": 0.09
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 6.0,
+        "shap_value": 0.05
+      },
+      {
+        "feature": "Bwd Packets/s",
+        "value": 3.2,
+        "shap_value": 0.03
+      }
+    ]
+  },
+  {
+    "flow_id": 56001,
+    "predicted_class": "SSH-Patator",
+    "confidence": 0.79,
+    "top_shap_features": [
+      {
+        "feature": "Fwd IAT Mean",
+        "value": 500.1,
+        "shap_value": 0.2
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 9,
+        "shap_value": 0.16
+      },
+      {
+        "feature": "Flow Duration",
+        "value": 6100,
+        "shap_value": 0.13
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 44.0,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 1,
+        "shap_value": 0.04
+      }
+    ]
+  },
+  {
+    "flow_id": 57001,
+    "predicted_class": "Bot",
+    "confidence": 0.99,
+    "top_shap_features": [
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 260.7,
+        "shap_value": 0.25
+      },
+      {
+        "feature": "Packet Length Variance",
+        "value": 510.3,
+        "shap_value": 0.2
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 6100.4,
+        "shap_value": 0.17
+      },
+      {
+        "feature": "Avg Bwd Segment Size",
+        "value": 240.1,
+        "shap_value": 0.13
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 4100000,
+        "shap_value": 0.09
+      }
+    ]
+  },
+  {
+    "flow_id": 57002,
+    "predicted_class": "Bot",
+    "confidence": 0.66,
+    "top_shap_features": [
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 130.2,
+        "shap_value": 0.13
+      },
+      {
+        "feature": "Packet Length Variance",
+        "value": 140.5,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 900.1,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "Avg Bwd Segment Size",
+        "value": 120.4,
+        "shap_value": 0.06
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 200000,
+        "shap_value": 0.04
+      }
+    ]
+  },
+  {
+    "flow_id": 57003,
+    "predicted_class": "Bot",
+    "confidence": 0.52,
+    "top_shap_features": [
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 70.0,
+        "shap_value": 0.09
+      },
+      {
+        "feature": "Packet Length Variance",
+        "value": 45.2,
+        "shap_value": 0.07
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 300.5,
+        "shap_value": 0.05
+      },
+      {
+        "feature": "Avg Bwd Segment Size",
+        "value": 68.1,
+        "shap_value": 0.04
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 8000,
+        "shap_value": 0.02
+      }
+    ]
+  },
+  {
+    "flow_id": 58001,
+    "predicted_class": "Web Attack",
+    "confidence": 0.8,
+    "top_shap_features": [
+      {
+        "feature": "Fwd Packets Length Total",
+        "value": 950,
+        "shap_value": 0.18
+      },
+      {
+        "feature": "Flow Bytes/s",
+        "value": 40200.1,
+        "shap_value": 0.14
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 6,
+        "shap_value": 0.11
+      },
+      {
+        "feature": "Fwd Packet Length Max",
+        "value": 300,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "Bwd Packet Length Max",
+        "value": 800,
+        "shap_value": 0.05
+      }
+    ]
+  },
+  {
+    "flow_id": 58002,
+    "predicted_class": "Web Attack",
+    "confidence": 0.63,
+    "top_shap_features": [
+      {
+        "feature": "Fwd Packets Length Total",
+        "value": 400,
+        "shap_value": 0.09
+      },
+      {
+        "feature": "Flow Bytes/s",
+        "value": 12500.4,
+        "shap_value": 0.07
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 4,
+        "shap_value": 0.05
+      },
+      {
+        "feature": "Fwd Packet Length Max",
+        "value": 150,
+        "shap_value": 0.04
+      },
+      {
+        "feature": "Bwd Packet Length Max",
+        "value": 300,
+        "shap_value": 0.02
+      }
+    ]
+  },
+  {
+    "flow_id": 59001,
+    "predicted_class": "DDoS",
+    "confidence": 0.6,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 5000,
+        "shap_value": 0.14
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 15,
+        "shap_value": 0.1
+      },
+      {
+        "feature": "Fwd Packets/s",
+        "value": 3000.4,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "Packet Length Std",
+        "value": 40.1,
+        "shap_value": 0.05
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": 512,
+        "shap_value": 0.03
+      }
+    ]
+  },
+  {
+    "flow_id": 60001,
+    "predicted_class": "Benign",
+    "confidence": 0.97,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 1800000,
+        "shap_value": 0.19
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 25,
+        "shap_value": 0.13
+      },
+      {
+        "feature": "Bwd Packets/s",
+        "value": 8.4,
+        "shap_value": 0.09
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 300000,
+        "shap_value": 0.06
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 1,
+        "shap_value": 0.04
+      }
+    ]
+  },
+  {
+    "flow_id": 60002,
+    "predicted_class": "Benign",
+    "confidence": 0.55,
+    "top_shap_features": [
+      {
+        "feature": "Flow Duration",
+        "value": 400000,
+        "shap_value": 0.08
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 10,
+        "shap_value": 0.06
+      },
+      {
+        "feature": "Bwd Packets/s",
+        "value": 15.2,
+        "shap_value": 0.04
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 50000,
+        "shap_value": 0.03
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 1,
+        "shap_value": 0.02
+      }
+    ]
+  },
+  {
+    "flow_id": 61001,
+    "predicted_class": "SSH-Patator",
+    "confidence": 0.75,
+    "top_shap_features": [
+      {
+        "feature": "Fwd IAT Mean",
+        "value": 700.0,
+        "shap_value": 0.18
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 10,
+        "shap_value": 0.14
+      },
+      {
+        "feature": "Flow Duration",
+        "value": 7000,
+        "shap_value": 0.11
+      },
+      {
+        "feature": "Fwd Packet Length Mean",
+        "value": 42.0,
+        "shap_value": 0.07
+      },
+      {
+        "feature": "ACK Flag Count",
+        "value": 1,
+        "shap_value": 0.03
+      }
+    ]
+  },
+  {
+    "flow_id": 61002,
+    "predicted_class": "Bot",
+    "confidence": 0.749,
+    "top_shap_features": [
+      {
+        "feature": "Bwd Packet Length Mean",
+        "value": 150.0,
+        "shap_value": 0.14
+      },
+      {
+        "feature": "Packet Length Variance",
+        "value": 160.2,
+        "shap_value": 0.11
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 1200.3,
+        "shap_value": 0.09
+      },
+      {
+        "feature": "Avg Bwd Segment Size",
+        "value": 140.5,
+        "shap_value": 0.06
+      },
+      {
+        "feature": "Idle Mean",
+        "value": 250000,
+        "shap_value": 0.04
+      }
+    ]
+  }
+]
