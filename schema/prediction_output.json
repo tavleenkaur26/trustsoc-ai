@@ -1,0 +1,11 @@
+{
+  "flow_id": "int — row index in test set",
+  "predicted_class": "string — one of 11 classes: Benign, Bot, DDoS, DoS GoldenEye, DoS Hulk, DoS Slowhttptest, DoS slowloris, FTP-Patator, PortScan, SSH-Patator, Web Attack",
+  "top_shap_features": [
+    {
+      "feature": "string — CICFlowMeter feature name",
+      "value": "float — the actual value of this feature for this flow",
+      "shap_value": "float — signed contribution to this prediction; positive = pushed toward predicted_class, negative = pushed away"
+    }
+  ]
+}
