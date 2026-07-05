@@ -1,6 +1,7 @@
 {
   "flow_id": "int — row index in test set",
   "predicted_class": "string — one of 11 classes: Benign, Bot, DDoS, DoS GoldenEye, DoS Hulk, DoS Slowhttptest, DoS slowloris, FTP-Patator, PortScan, SSH-Patator, Web Attack",
+  "confidence": "float 0-1 — model's predicted probability for predicted_class",
   "top_shap_features": [
     {
       "feature": "string — CICFlowMeter feature name",

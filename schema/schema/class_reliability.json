@@ -1,0 +1,13 @@
+{
+  "Benign": {"precision": 1.00, "recall": 1.00, "f1": 1.00},
+  "Bot": {"precision": 0.63, "recall": 0.93, "f1": 0.75},
+  "DDoS": {"precision": 1.00, "recall": 1.00, "f1": 1.00},
+  "DoS GoldenEye": {"precision": 1.00, "recall": 1.00, "f1": 1.00},
+  "DoS Hulk": {"precision": 1.00, "recall": 1.00, "f1": 1.00},
+  "DoS Slowhttptest": {"precision": 0.92, "recall": 0.99, "f1": 0.95},
+  "DoS slowloris": {"precision": 0.99, "recall": 0.99, "f1": 0.99},
+  "FTP-Patator": {"precision": 0.99, "recall": 1.00, "f1": 1.00},
+  "PortScan": {"precision": 0.92, "recall": 0.93, "f1": 0.93},
+  "SSH-Patator": {"precision": 1.00, "recall": 1.00, "f1": 1.00},
+  "Web Attack": {"precision": 0.98, "recall": 0.98, "f1": 0.98}
+}
