@@ -93,6 +93,8 @@ def call_local_llm(system_prompt: str, user_prompt: str, model: str = "llama3.1:
     """
     Calls a local model via Ollama (free, no API key, runs on your machine).
     Requires `ollama serve` running and the model pulled: `ollama pull llama3.1:8b`.
+    Use this for local development/testing only - it will NOT work once deployed
+    (Streamlit Cloud has no access to your machine's Ollama instance).
     """
     import requests
 
@@ -125,24 +127,88 @@ def call_local_llm(system_prompt: str, user_prompt: str, model: str = "llama3.1:
         raise ValueError(f"Model did not return parseable JSON:\n{text}")
 
 
-def generate_report(record: dict, model: str = "llama3.1:8b") -> dict:
+def call_groq_llm(system_prompt: str, user_prompt: str, model: str = "llama-3.1-8b-instant", max_retries: int = 5) -> dict:
+    """
+    Calls Groq's hosted API (free tier, fast). Used for deployment, since a
+    deployed app has no access to a local Ollama instance.
+    Requires GROQ_API_KEY set as an environment variable or in
+    .streamlit/secrets.toml (see dashboard/app.py for how it's read).
+    Get a free key at https://console.groq.com/keys
+
+    Retries automatically on 429 (rate limit) since the free tier has a
+    requests-per-minute cap that's easy to hit when batch-processing many
+    flows in a row.
+    """
+    import os
+    import time
+    import requests
+
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError("GROQ_API_KEY not set. Get a free key at https://console.groq.com/keys")
+
+    for attempt in range(max_retries):
+        resp = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}"},
+            json={
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                "temperature": 0.2,
+                "response_format": {"type": "json_object"},
+            },
+            timeout=60,
+        )
+        if resp.status_code == 429:
+            wait = int(resp.headers.get("Retry-After", 2 ** attempt))
+            print(f"  Rate limited, waiting {wait}s before retry ({attempt + 1}/{max_retries})...")
+            time.sleep(wait)
+            continue
+        resp.raise_for_status()
+        text = resp.json()["choices"][0]["message"]["content"].strip()
+        return json.loads(text)
+
+    raise RuntimeError("Groq API rate limit exceeded after max retries.")
+
+
+def generate_report(record: dict, backend: str = "auto", model: str = None) -> dict:
+    """
+    backend: "ollama" (local dev), "groq" (deployment), or "auto" (uses Groq if
+    GROQ_API_KEY is set in the environment, otherwise falls back to local Ollama).
+    """
+    import os
+
     user_prompt = build_user_prompt(record)
-    return call_local_llm(SYSTEM_PROMPT, user_prompt, model=model)
+
+    if backend == "auto":
+        backend = "groq" if os.environ.get("GROQ_API_KEY") else "ollama"
+
+    if backend == "groq":
+        return call_groq_llm(SYSTEM_PROMPT, user_prompt, model=model or "llama-3.1-8b-instant")
+    return call_local_llm(SYSTEM_PROMPT, user_prompt, model=model or "llama3.1:8b")
 
 
 if __name__ == "__main__":
+    import time
+
     path = sys.argv[1] if len(sys.argv) > 1 else "schema/sample_predictions.json"
     with open(path) as f:
         records = json.load(f)
 
     reports = []
-    for record in records:
+    for i, record in enumerate(records):
         print(f"Generating report for flow {record['flow_id']} ({record['predicted_class']})...")
         report = generate_report(record)
         report["flow_id"] = record["flow_id"]
         reports.append(report)
         print(json.dumps(report, indent=2))
         print("-" * 60)
+
+        if i < len(records) - 1:
+            time.sleep(2)  # small proactive pause to avoid tripping the free-tier rate limit
 
     out_path = Path("outputs/sample_reports.json")
     out_path.parent.mkdir(exist_ok=True)
