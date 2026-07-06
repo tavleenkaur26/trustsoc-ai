@@ -19,8 +19,12 @@ data/raw/
 data/processed/
 
 # Model files
-*.pkl
+shap_values_full.pkl
 *.joblib
 
 # Outputs
-outputs/
+outputs/*
+!outputs/final_xgb_model.pkl
+!outputs/label_encoder.pkl
+!outputs/handoff_examples.json
+!outputs/class_reliability.json

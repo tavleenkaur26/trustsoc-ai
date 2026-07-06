@@ -1,0 +1,642 @@
+[
+  {
+    "flow_id": 66721,
+    "predicted_class": "Benign",
+    "confidence": 0.9999996423721313,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 42780.0,
+        "shap_value": 5.3749518394470215
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 0.0,
+        "shap_value": 0.6259168982505798
+      },
+      {
+        "feature": "Fwd Seg Size Min",
+        "value": 20.0,
+        "shap_value": -0.5973703861236572
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 0.0,
+        "shap_value": -0.41986092925071716
+      },
+      {
+        "feature": "PSH Flag Count",
+        "value": 1.0,
+        "shap_value": 0.4064221680164337
+      }
+    ]
+  },
+  {
+    "flow_id": 184686,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 40958.0,
+        "shap_value": 4.210871696472168
+      },
+      {
+        "feature": "Fwd Act Data Packets",
+        "value": 9.0,
+        "shap_value": 1.9148192405700684
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 182.4550323486328,
+        "shap_value": 0.6936431527137756
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 711.0,
+        "shap_value": 0.6914561986923218
+      },
+      {
+        "feature": "Flow IAT Max",
+        "value": 9868536.0,
+        "shap_value": 0.34939223527908325
+      }
+    ]
+  },
+  {
+    "flow_id": 65989,
+    "predicted_class": "DDoS",
+    "confidence": 0.99998939037323,
+    "top_shap_features": [
+      {
+        "feature": "Fwd Packet Length Max",
+        "value": 6.0,
+        "shap_value": 2.776562213897705
+      },
+      {
+        "feature": "Fwd Packets Length Total",
+        "value": 24.0,
+        "shap_value": 1.367143154144287
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": 256.0,
+        "shap_value": 1.3303827047348022
+      },
+      {
+        "feature": "Total Backward Packets",
+        "value": 0.0,
+        "shap_value": 0.9023762941360474
+      },
+      {
+        "feature": "Fwd IAT Std",
+        "value": 6373151.0,
+        "shap_value": 0.8364507555961609
+      }
+    ]
+  },
+  {
+    "flow_id": 302801,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Protocol",
+        "value": 17.0,
+        "shap_value": 9.007537841796875
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 1.8922432661056519
+      },
+      {
+        "feature": "Flow IAT Min",
+        "value": 1.0,
+        "shap_value": 1.325304627418518
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 156.0,
+        "shap_value": 0.8025058507919312
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 0.773449718952179
+      }
+    ]
+  },
+  {
+    "flow_id": 403640,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Protocol",
+        "value": 17.0,
+        "shap_value": 8.623754501342773
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 1.8920258283615112
+      },
+      {
+        "feature": "Flow IAT Min",
+        "value": 3.0,
+        "shap_value": 1.3235176801681519
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 238.0,
+        "shap_value": 0.790300190448761
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 0.7675287127494812
+      }
+    ]
+  },
+  {
+    "flow_id": 298585,
+    "predicted_class": "Benign",
+    "confidence": 0.9999700784683228,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 0.8217615485191345
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 2.0,
+        "shap_value": 0.5397498607635498
+      },
+      {
+        "feature": "Bwd Packets/s",
+        "value": 0.0,
+        "shap_value": -0.5096102356910706
+      },
+      {
+        "feature": "Avg Packet Size",
+        "value": 0.0,
+        "shap_value": -0.2980009913444519
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 0.0,
+        "shap_value": 0.2904019057750702
+      }
+    ]
+  },
+  {
+    "flow_id": 7573,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Protocol",
+        "value": 17.0,
+        "shap_value": 9.647310256958008
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 1.8931785821914673
+      },
+      {
+        "feature": "Flow IAT Min",
+        "value": 1.0,
+        "shap_value": 1.323470115661621
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 200.0,
+        "shap_value": 0.7754768133163452
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 0.766788125038147
+      }
+    ]
+  },
+  {
+    "flow_id": 58275,
+    "predicted_class": "Benign",
+    "confidence": 0.9999949932098389,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 29200.0,
+        "shap_value": 1.257397174835205
+      },
+      {
+        "feature": "Fwd IAT Min",
+        "value": 264945.0,
+        "shap_value": 0.9824832677841187
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 0.0,
+        "shap_value": 0.5381029844284058
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 0.0,
+        "shap_value": -0.4331517219543457
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": 8192.0,
+        "shap_value": 0.26968440413475037
+      }
+    ]
+  },
+  {
+    "flow_id": 211818,
+    "predicted_class": "Benign",
+    "confidence": 0.9999997615814209,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 63.0,
+        "shap_value": 1.0550228357315063
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 3791.0,
+        "shap_value": 0.8503971695899963
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 1093.919189453125,
+        "shap_value": 0.5544884204864502
+      },
+      {
+        "feature": "Active Std",
+        "value": 121212.734375,
+        "shap_value": 0.5123190879821777
+      },
+      {
+        "feature": "Bwd IAT Max",
+        "value": 10000000.0,
+        "shap_value": 0.3952397406101227
+      }
+    ]
+  },
+  {
+    "flow_id": 268464,
+    "predicted_class": "Benign",
+    "confidence": 0.9999996423721313,
+    "top_shap_features": [
+      {
+        "feature": "Fwd Act Data Packets",
+        "value": 9.0,
+        "shap_value": 1.3079211711883545
+      },
+      {
+        "feature": "Active Std",
+        "value": 233187.546875,
+        "shap_value": -0.9577858448028564
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 1026.0,
+        "shap_value": 0.899590790271759
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 6528.0,
+        "shap_value": 0.8310588598251343
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 722.5068969726562,
+        "shap_value": 0.7636932730674744
+      }
+    ]
+  },
+  {
+    "flow_id": 427210,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Protocol",
+        "value": 17.0,
+        "shap_value": 8.222098350524902
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 1.9205448627471924
+      },
+      {
+        "feature": "Flow IAT Min",
+        "value": 3.0,
+        "shap_value": 1.3243359327316284
+      },
+      {
+        "feature": "Fwd Seg Size Min",
+        "value": 32.0,
+        "shap_value": -0.7615892291069031
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 0.6831005215644836
+      }
+    ]
+  },
+  {
+    "flow_id": 184179,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Protocol",
+        "value": 17.0,
+        "shap_value": 14.268050193786621
+      },
+      {
+        "feature": "Flow IAT Std",
+        "value": 55311.88671875,
+        "shap_value": 4.766805648803711
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 1.8885513544082642
+      },
+      {
+        "feature": "Flow IAT Min",
+        "value": 3.0,
+        "shap_value": 1.3234575986862183
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 274.0,
+        "shap_value": 0.804812490940094
+      }
+    ]
+  },
+  {
+    "flow_id": 360520,
+    "predicted_class": "Benign",
+    "confidence": 0.9999990463256836,
+    "top_shap_features": [
+      {
+        "feature": "Fwd Act Data Packets",
+        "value": 9.0,
+        "shap_value": 1.5373070240020752
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 980.0,
+        "shap_value": 0.828345775604248
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 3996.0,
+        "shap_value": 0.7752335071563721
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 640.4467163085938,
+        "shap_value": 0.5993587374687195
+      },
+      {
+        "feature": "PSH Flag Count",
+        "value": 1.0,
+        "shap_value": 0.2686205506324768
+      }
+    ]
+  },
+  {
+    "flow_id": 331422,
+    "predicted_class": "Benign",
+    "confidence": 0.9999953508377075,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 37.0,
+        "shap_value": 1.080772876739502
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 888.2463989257812,
+        "shap_value": 0.6946811079978943
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 6929.0,
+        "shap_value": 0.5157718062400818
+      },
+      {
+        "feature": "Total Backward Packets",
+        "value": 9.0,
+        "shap_value": 0.29859021306037903
+      },
+      {
+        "feature": "PSH Flag Count",
+        "value": 1.0,
+        "shap_value": 0.2485542595386505
+      }
+    ]
+  },
+  {
+    "flow_id": 140341,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Protocol",
+        "value": 17.0,
+        "shap_value": 8.71607494354248
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 1.9236078262329102
+      },
+      {
+        "feature": "Flow IAT Min",
+        "value": 3.0,
+        "shap_value": 1.3252958059310913
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 106.0,
+        "shap_value": 0.8251268267631531
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 0.6933737397193909
+      }
+    ]
+  },
+  {
+    "flow_id": 343313,
+    "predicted_class": "Benign",
+    "confidence": 0.9999995231628418,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 65535.0,
+        "shap_value": 6.657322406768799
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 0.0,
+        "shap_value": 0.5755715370178223
+      },
+      {
+        "feature": "Fwd Seg Size Min",
+        "value": 32.0,
+        "shap_value": -0.4534911811351776
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": 972.0,
+        "shap_value": 0.30711784958839417
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 0.0,
+        "shap_value": -0.2800041735172272
+      }
+    ]
+  },
+  {
+    "flow_id": 460656,
+    "predicted_class": "Benign",
+    "confidence": 1.0,
+    "top_shap_features": [
+      {
+        "feature": "Fwd Act Data Packets",
+        "value": 15.0,
+        "shap_value": 1.9453486204147339
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 946.0,
+        "shap_value": 0.9522196054458618
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 472.1299743652344,
+        "shap_value": 0.6512789726257324
+      },
+      {
+        "feature": "Active Min",
+        "value": 23440.0,
+        "shap_value": 0.47112712264060974
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 1773.0,
+        "shap_value": 0.4603872001171112
+      }
+    ]
+  },
+  {
+    "flow_id": 310,
+    "predicted_class": "Benign",
+    "confidence": 0.9997997879981995,
+    "top_shap_features": [
+      {
+        "feature": "Bwd Packets/s",
+        "value": 0.0,
+        "shap_value": -0.8068044781684875
+      },
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": -1.0,
+        "shap_value": 0.7819159626960754
+      },
+      {
+        "feature": "Fwd Seg Size Min",
+        "value": 32.0,
+        "shap_value": -0.6800589561462402
+      },
+      {
+        "feature": "Fwd IAT Min",
+        "value": 42145.0,
+        "shap_value": 0.42447641491889954
+      },
+      {
+        "feature": "Total Fwd Packets",
+        "value": 3.0,
+        "shap_value": 0.37696167826652527
+      }
+    ]
+  },
+  {
+    "flow_id": 248925,
+    "predicted_class": "Benign",
+    "confidence": 0.999998927116394,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 137.0,
+        "shap_value": 0.9683676958084106
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 636.7588500976562,
+        "shap_value": 0.7319026589393616
+      },
+      {
+        "feature": "Bwd IAT Max",
+        "value": 10000362.0,
+        "shap_value": 0.49811819195747375
+      },
+      {
+        "feature": "Total Backward Packets",
+        "value": 12.0,
+        "shap_value": 0.3795848786830902
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 7113.0,
+        "shap_value": 0.37700971961021423
+      }
+    ]
+  },
+  {
+    "flow_id": 336139,
+    "predicted_class": "Benign",
+    "confidence": 0.9996194839477539,
+    "top_shap_features": [
+      {
+        "feature": "Init Bwd Win Bytes",
+        "value": 410.0,
+        "shap_value": 1.1373621225357056
+      },
+      {
+        "feature": "Bwd Packet Length Std",
+        "value": 0.0,
+        "shap_value": 0.4731655418872833
+      },
+      {
+        "feature": "Fwd Seg Size Min",
+        "value": 32.0,
+        "shap_value": -0.45965296030044556
+      },
+      {
+        "feature": "Init Fwd Win Bytes",
+        "value": 31.0,
+        "shap_value": 0.4417424201965332
+      },
+      {
+        "feature": "Bwd Packets Length Total",
+        "value": 0.0,
+        "shap_value": -0.3734869956970215
+      }
+    ]
+  }
+]
