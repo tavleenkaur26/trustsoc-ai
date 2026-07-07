@@ -28,3 +28,5 @@ outputs/*
 !outputs/label_encoder.pkl
 !outputs/handoff_examples.json
 !outputs/class_reliability.json
+
+cicids2017.zip
