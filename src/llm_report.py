@@ -91,6 +91,9 @@ STRICT RULES:
      trivially reworded) when describing duration/timing in words - never compute or
      relabel the unit yourself, since the raw "value" field is in microseconds and
      manual conversion has repeatedly produced errors.
+   - For the "Protocol" feature, if a "protocol_name" field is present, use that name
+     exactly - never state a different protocol name from memory (e.g. do not call
+     protocol 17 "TCP"; use protocol_name as given).
 5. If you are not confident a MITRE technique fits given the evidence, say so instead
    of asserting it flatly.
 6. Recommended actions must be generic, standard SOC playbook steps appropriate to the
@@ -112,6 +115,12 @@ Output JSON schema:
 
 TIME_FEATURE_MARKERS = ("Duration", "IAT", "Active", "Idle")
 
+# IANA protocol numbers as used by CICFlowMeter. The LLM was repeatedly
+# misstating these from memory (e.g. calling protocol 17 "TCP" when it's
+# actually UDP) - fixed the same way as duration units: compute the fact
+# in code so the LLM only has to state it, not recall it.
+PROTOCOL_NAMES = {0: "HOPOPT", 1: "ICMP", 6: "TCP", 17: "UDP"}
+
 
 def _readable_duration(seconds: float) -> str:
     """Pick the right unit automatically and format it, so the LLM never has to."""
@@ -121,6 +130,21 @@ def _readable_duration(seconds: float) -> str:
     if ms >= 1:
         return f"{ms:.2f} ms"
     return f"{seconds * 1_000_000:.0f} \u00b5s"
+
+
+def _annotate_protocol(features: list) -> list:
+    annotated = []
+    for f in features:
+        f = dict(f)
+        if f["feature"] == "Protocol":
+            try:
+                proto_num = int(f["value"])
+                f["protocol_name"] = PROTOCOL_NAMES.get(proto_num, f"protocol #{proto_num}")
+                f["_note"] = "protocol_name is the correct name for this protocol number - state it exactly as given, do not recall or guess a different protocol name for this number"
+            except (TypeError, ValueError):
+                pass
+        annotated.append(f)
+    return annotated
 
 
 def _annotate_time_features(features: list) -> list:
@@ -149,11 +173,13 @@ def build_user_prompt(record: dict) -> str:
     mitre = MITRE_LOOKUP.get(predicted_class, [])
     reliability = CLASS_RELIABILITY.get(predicted_class, {})
     review_assessment = compute_review_flag(record)
+    features = _annotate_time_features(record["top_shap_features"])
+    features = _annotate_protocol(features)
     payload = {
         "flow_id": record["flow_id"],
         "predicted_class": predicted_class,
-        "confidence_this_flow": record.get("confidence"),
-        "top_shap_features": _annotate_time_features(record["top_shap_features"]),
+        "confidence_this_flow": round(record.get("confidence", 0.0), 4),
+        "top_shap_features": features,
         "mitre_techniques": mitre,
         "class_historical_reliability": reliability,
         "review_assessment": review_assessment,
@@ -162,6 +188,7 @@ def build_user_prompt(record: dict) -> str:
         "Generate the analyst report for this flow. Input evidence:\n\n"
         + json.dumps(payload, indent=2)
     )
+
 
 
 def call_local_llm(system_prompt: str, user_prompt: str, model: str = "llama3.1:8b") -> dict:

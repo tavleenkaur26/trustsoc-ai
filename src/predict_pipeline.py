@@ -1,19 +1,3 @@
-"""
-src/predict_pipeline.py
-
-Turns a raw CICIDS-format CSV upload into the same JSON schema used
-everywhere else in this project (schema/prediction_output.json), by running
-Person 1's trained model + SHAP TreeExplainer on it.
-
-REQUIRES two model artifacts that Person 1 needs to export (see the
-joblib.dump() calls already in their training notebook) and place here:
-    models/final_xgb_model.pkl   - the trained XGBoost classifier
-    models/label_encoder.pkl     - the LabelEncoder used on y during training
-
-Until those files exist, CSV upload raises a clear error explaining what's
-missing. It will NOT fabricate predictions to fill the gap.
-"""
-
 import numpy as np
 import pandas as pd
 from pathlib import Path

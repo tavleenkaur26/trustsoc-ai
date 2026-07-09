@@ -1,21 +1,3 @@
-"""
-dashboard/app.py
-
-TrustSOC AI - light "security console" dashboard.
-
-Layout: hero section (product framing + pipeline card) -> session stats ->
-live detection table -> click a row to open a detail dialog with SHAP
-evidence + on-demand LLM report generation.
-
-Note: the table intentionally does NOT show source/destination IP or port.
-Those fields were dropped upstream during data prep as identity/leakage
-columns (see src/data_prep.py) - fabricating them here for looks would be
-exactly the kind of unsupported claim this project is designed to avoid.
-
-Run with:
-    streamlit run dashboard/app.py
-"""
-
 import json
 import os
 import sys
@@ -331,7 +313,7 @@ with tab_detect:
         selection_mode="single-row",
         column_config={
             "Confidence": st.column_config.ProgressColumn(
-                "Confidence", min_value=0, max_value=100, format="%.1f%%"
+                "Confidence", min_value=0, max_value=100, format="%.3f%%"
             ),
         },
     )
@@ -353,7 +335,7 @@ with tab_detect:
                 </span>
             </div>
             <div class="mono" style="color:{MUTED};font-size:0.85rem;margin-bottom:18px;">
-                confidence {record['confidence']:.1%}
+                confidence {record['confidence']:.3%}
             </div>
             """, unsafe_allow_html=True)
 
