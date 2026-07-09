@@ -10,6 +10,34 @@ with open(SCHEMA_DIR / "mitre_mapping.json") as f:
 with open(SCHEMA_DIR / "class_reliability.json") as f:
     CLASS_RELIABILITY = json.load(f)
 
+CONFIDENCE_THRESHOLD = 0.75
+PRECISION_THRESHOLD = 0.80
+
+
+def compute_review_flag(record: dict) -> dict:
+    """
+    Deterministically decides whether manual review should be recommended,
+    using exactly the same two signals the LLM used to be asked to reason
+    about: this flow's confidence, and the predicted class's historical
+    precision. Returns a fact for the LLM to state, not a question for it
+    to answer.
+    """
+    confidence = record.get("confidence", 0.0)
+    predicted_class = record["predicted_class"]
+    precision = CLASS_RELIABILITY.get(predicted_class, {}).get("precision", 1.0)
+
+    reasons = []
+    if confidence < CONFIDENCE_THRESHOLD:
+        reasons.append(f"this flow's confidence ({confidence:.1%}) is below the {CONFIDENCE_THRESHOLD:.0%} threshold")
+    if precision < PRECISION_THRESHOLD:
+        reasons.append(f"the {predicted_class} class has historically lower precision ({precision:.0%}), so false positives are more common for this class")
+
+    return {
+        "review_required": bool(reasons),
+        "review_reason": "; ".join(reasons) if reasons else
+                          "both this flow's confidence and the class's historical precision are high",
+    }
+
 
 SYSTEM_PROMPT = """You are a SOC report-writing assistant. You are given the output of a
 machine-learning intrusion detection system for a single network flow:
@@ -17,30 +45,29 @@ machine-learning intrusion detection system for a single network flow:
 - the top SHAP feature attributions that explain THIS specific prediction
 - a static MITRE ATT&CK technique mapping for the predicted class
 - the model's HISTORICAL precision/recall/F1 for the predicted class, measured
-  on a held-out test set (this tells you how trustworthy this class has been
-  in general, which is a separate fact from this flow's confidence score)
+  on a held-out test set
+- review_assessment: a PRECOMPUTED fact (review_required: true/false, and
+  review_reason) about whether manual review should be recommended. This has
+  already been decided deterministically from the confidence and reliability
+  numbers - it is not your judgment to make.
 
 STRICT RULES:
 1. Only make claims that are directly supported by the predicted_class, confidence,
    top_shap_features, mitre_techniques, or class_reliability provided to you. Do not
    invent IP addresses, timestamps, user names, hostnames, coordination between hosts,
    attacker intent, or any detail not present in the input.
-2. Confidence and class reliability are separate signals - do not conflate them.
-   A confidence of 0.90+ is high for THIS flow; do not call it "low confidence."
-   Separately, if the predicted class has historical precision below 0.80, say so
-   explicitly and note that false positives are more common for this class, even if
-   this flow's own confidence is high.
-3. Manual review guidance is tied ONLY to this flow's confidence, never to how high
-   it is. If confidence is below 0.75, say the prediction is lower-confidence and an
-   analyst should manually verify. If confidence is 0.75 or above, do not say review
-   is needed "because" confidence is high - that reverses the rule. High confidence on
-   its own is never a reason to recommend review; low confidence or low class
-   reliability (rule 2) are the only two valid reasons.
-3.5. Never state or imply that manual review is unnecessary or can be skipped,
-   regardless of how high the confidence or class reliability is. Even a
-   perfect-precision class can have an unseen edge case. You may say
-   "high confidence, low false-positive risk" but never "review not needed"
-   or similar. The decision to skip review belongs to the analyst, not you.
+2. Confidence and class reliability are separate signals - do not conflate them in your
+   explanation. A confidence of 0.90+ is high for THIS flow; do not call it "low
+   confidence." Separately, if the predicted class has historical precision below 0.80,
+   you may mention that false positives are more common for this class.
+3. For confidence_note: explicitly state whether review_assessment.review_required is
+   true or false (e.g. "manual review is recommended" / "not flagged as required") -
+   do not just describe the numbers and leave the reader to infer the status. Paraphrase
+   review_assessment.review_reason in your own words. Do NOT re-derive whether review
+   is needed, do NOT contradict the given review_required value, and do NOT invent a
+   different reason (e.g. a confidence threshold number not given to you). If
+   review_required is false, you may still note it's good practice to spot-check, but
+   never say review is "unnecessary" - simply state that it is not flagged as required.
 4. Explain in plain English what the SHAP features mean for this specific flow rather
    than just repeating numbers. The predicted_class tells you what KIND of attack this
    is - match your description to that, not to a generic template:
@@ -51,9 +78,19 @@ STRICT RULES:
      communication, not reconnaissance) even if their flows are also short.
    - Do not describe the traffic as "coordinated," part of a "campaign," or "waiting
      for instructions" unless a feature directly measures that - flow-level statistics
-     alone cannot establish intent.
+     alone cannot establish intent. Only call something "an idle period" if its
+     feature name is literally "Idle Mean," "Idle Std," "Idle Max," or "Idle Min" -
+     for "Flow Duration," "Fwd/Bwd IAT," or "Active" features use neutral language
+     like "the flow's duration" or "the time between packets," never "idle period,"
+     since those measure different things. A long idle period is a timing fact, not
+     evidence of waiting for commands - describe it only as "an extended idle
+     period," never attribute intent to it.
    - Before calling a feature value "high," "low," "short," or "long," check the
      actual number given rather than assuming direction from the feature's name.
+   - For any feature with a "value_readable" field, quote that string verbatim (or
+     trivially reworded) when describing duration/timing in words - never compute or
+     relabel the unit yourself, since the raw "value" field is in microseconds and
+     manual conversion has repeatedly produced errors.
 5. If you are not confident a MITRE technique fits given the evidence, say so instead
    of asserting it flatly.
 6. Recommended actions must be generic, standard SOC playbook steps appropriate to the
@@ -65,23 +102,61 @@ Output JSON schema:
   "summary": "1-2 sentence plain-English summary of what was detected",
   "evidence_explanation": "2-4 sentences grounded strictly in the SHAP features given",
   "mitre_mapping": [{"technique_id": "...", "technique_name": "...", "tactic": "..."}],
-  "confidence_note": "1-2 sentences distinguishing this flow's confidence from the class's historical reliability, and whether manual review is advised",
+  "confidence_note": "1-2 sentences: this flow's confidence vs. the class's historical reliability, and the precomputed review_required fact stated in your own words",
   "recommended_actions": ["short imperative action 1", "short imperative action 2", "..."]
 }
 """
+
+
+
+
+TIME_FEATURE_MARKERS = ("Duration", "IAT", "Active", "Idle")
+
+
+def _readable_duration(seconds: float) -> str:
+    """Pick the right unit automatically and format it, so the LLM never has to."""
+    if seconds >= 1:
+        return f"{seconds:.2f} s"
+    ms = seconds * 1000
+    if ms >= 1:
+        return f"{ms:.2f} ms"
+    return f"{seconds * 1_000_000:.0f} \u00b5s"
+
+
+def _annotate_time_features(features: list) -> list:
+    """
+    CICFlowMeter records duration/inter-arrival/active/idle features in
+    microseconds. The LLM was doing unit conversion itself and getting it
+    wrong by orders of magnitude, or mislabeling milliseconds as seconds.
+    Fix: compute a ready-to-quote, correctly-unit-labeled string in code.
+    """
+    annotated = []
+    for f in features:
+        f = dict(f)
+        if any(marker in f["feature"] for marker in TIME_FEATURE_MARKERS):
+            try:
+                seconds = float(f["value"]) / 1_000_000
+                f["value_readable"] = _readable_duration(seconds)
+                f["_note"] = "value_readable is this same quantity already converted to the right unit - quote it verbatim (or trivially reworded), do not recompute or relabel the unit yourself"
+            except (TypeError, ValueError):
+                pass
+        annotated.append(f)
+    return annotated
 
 
 def build_user_prompt(record: dict) -> str:
     predicted_class = record["predicted_class"]
     mitre = MITRE_LOOKUP.get(predicted_class, [])
     reliability = CLASS_RELIABILITY.get(predicted_class, {})
+    review_assessment = compute_review_flag(record)
     payload = {
         "flow_id": record["flow_id"],
         "predicted_class": predicted_class,
         "confidence_this_flow": record.get("confidence"),
-        "top_shap_features": record["top_shap_features"],
+        "top_shap_features": _annotate_time_features(record["top_shap_features"]),
         "mitre_techniques": mitre,
         "class_historical_reliability": reliability,
+        "review_assessment": review_assessment,
     }
     return (
         "Generate the analyst report for this flow. Input evidence:\n\n"
@@ -187,8 +262,14 @@ def generate_report(record: dict, backend: str = "auto", model: str = None) -> d
         backend = "groq" if os.environ.get("GROQ_API_KEY") else "ollama"
 
     if backend == "groq":
-        return call_groq_llm(SYSTEM_PROMPT, user_prompt, model=model or "llama-3.1-8b-instant")
-    return call_local_llm(SYSTEM_PROMPT, user_prompt, model=model or "llama3.1:8b")
+        report = call_groq_llm(SYSTEM_PROMPT, user_prompt, model=model or "llama-3.1-8b-instant")
+    else:
+        report = call_local_llm(SYSTEM_PROMPT, user_prompt, model=model or "llama3.1:8b")
+
+    # Ground-truth fact, computed in code, independent of anything the LLM said.
+    # The dashboard can use this directly instead of trusting the LLM's paraphrase.
+    report["review_assessment"] = compute_review_flag(record)
+    return report
 
 
 if __name__ == "__main__":
