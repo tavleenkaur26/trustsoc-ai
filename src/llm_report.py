@@ -24,7 +24,7 @@ def compute_review_flag(record: dict) -> dict:
     """
     confidence = record.get("confidence", 0.0)
     predicted_class = record["predicted_class"]
-    precision = CLASS_RELIABILITY.get(predicted_class, {}).get("precision", 1.0)
+    precision = CLASS_RELIABILITY.get(predicted_class, {}).get("precision", 0.0)
 
     reasons = []
     if confidence < CONFIDENCE_THRESHOLD:
