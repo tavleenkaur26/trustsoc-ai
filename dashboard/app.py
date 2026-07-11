@@ -469,6 +469,13 @@ elif nav == "Detection":
                         st.error(f"Report generation failed: {e}")
 
                 if report:
+                    
+                    review = report.get("review_assessment", {})
+                    if review.get("review_required"):
+                        st.error(f"⚠️ Manual review recommended — {review['review_reason']}")
+                    else:
+                        st.success("✓ Not flagged for mandatory review")
+
                     st.markdown(f"**Summary:** {report['summary']}")
                     st.markdown(f"**Evidence:** {report['evidence_explanation']}")
                     if report["mitre_mapping"]:
