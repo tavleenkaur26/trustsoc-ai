@@ -21,15 +21,35 @@ def compute_review_flag(record: dict) -> dict:
     about: this flow's confidence, and the predicted class's historical
     precision. Returns a fact for the LLM to state, not a question for it
     to answer.
+
+    Fail-safe direction: if predicted_class isn't in class_reliability.json
+    (shouldn't normally happen, but could if the model or schema drifts),
+    treat it as precision=0.0, not 1.0. An unknown class must always trigger
+    review - silently assuming perfect reliability for something we have no
+    data on is the wrong failure direction for a SOC tool.
+
+    Design note: because PRECISION_THRESHOLD (0.80) is set above Bot's
+    measured precision (0.63, see class_reliability.json), every Bot
+    prediction is flagged for review regardless of this flow's confidence.
+    This is intentional, not a bug - Bot's precision ceiling means even a
+    99% confident single-flow prediction has a meaningfully elevated
+    false-positive risk at the class level, so class-level gating
+    overrides per-flow confidence for this class by design.
     """
     confidence = record.get("confidence", 0.0)
     predicted_class = record["predicted_class"]
-    precision = CLASS_RELIABILITY.get(predicted_class, {}).get("precision", 0.0)
+    class_stats = CLASS_RELIABILITY.get(predicted_class)
+    if class_stats is None:
+        precision = 0.0  # fail closed: unknown class -> always review
+    else:
+        precision = class_stats.get("precision", 0.0)
 
     reasons = []
     if confidence < CONFIDENCE_THRESHOLD:
         reasons.append(f"this flow's confidence ({confidence:.1%}) is below the {CONFIDENCE_THRESHOLD:.0%} threshold")
-    if precision < PRECISION_THRESHOLD:
+    if class_stats is None:
+        reasons.append(f"'{predicted_class}' is not a recognized class in class_reliability.json, so it cannot be verified as reliable")
+    elif precision < PRECISION_THRESHOLD:
         reasons.append(f"the {predicted_class} class has historically lower precision ({precision:.0%}), so false positives are more common for this class")
 
     return {
@@ -69,8 +89,19 @@ STRICT RULES:
    review_required is false, you may still note it's good practice to spot-check, but
    never say review is "unnecessary" - simply state that it is not flagged as required.
 4. Explain in plain English what the SHAP features mean for this specific flow rather
-   than just repeating numbers. The predicted_class tells you what KIND of attack this
-   is - match your description to that, not to a generic template:
+   than just repeating numbers. Each feature has TWO separate numbers - do not confuse
+   them:
+   - "feature_value" is the actual measured reading for this flow (e.g. the real
+     packet length, the real duration). This is the number to quote when describing
+     what the traffic looked like.
+   - "shap_contribution" is how much that feature pushed the model toward this
+     prediction - NOT a measurement, NOT a probability, and NOT a "times more likely"
+     multiplier. Never quote shap_contribution as if it were the feature_value, and
+     never phrase it as "X times more likely." You may say a feature "contributed
+     strongly" or "was a minor factor" based on its magnitude, but do not state the
+     shap_contribution number as if it were the reading itself.
+   The predicted_class tells you what KIND of attack this is - match your description
+   to that, not to a generic template:
    - Only describe traffic as a "scan" or "scan probe" if predicted_class is PortScan.
      Never use "scan" or "scan probe" language for DoS/DDoS floods, brute-force
      attempts (FTP-Patator, SSH-Patator), Web Attack, or Bot - these are fundamentally
@@ -168,6 +199,25 @@ def _annotate_time_features(features: list) -> list:
     return annotated
 
 
+def _relabel_value_fields(features: list) -> list:
+    """
+    The LLM was repeatedly quoting shap_value as if it were the actual
+    feature reading (e.g. calling a SHAP contribution of 1.73 "the packet
+    length minimum" when the real reading was 53.0), and describing SHAP
+    values as probability multipliers ("9.1 times more likely"), which is
+    not what a SHAP value means. Fix: rename the keys so the two numbers
+    are unambiguous, and drop the old ambiguous names entirely.
+    """
+    relabeled = []
+    for f in features:
+        f = dict(f)
+        new_f = {"feature": f["feature"], "feature_value": f.pop("value"), "shap_contribution": f.pop("shap_value")}
+        # carry over any annotations already added (value_readable, protocol_name, _note)
+        new_f.update(f)
+        relabeled.append(new_f)
+    return relabeled
+
+
 def build_user_prompt(record: dict) -> str:
     predicted_class = record["predicted_class"]
     mitre = MITRE_LOOKUP.get(predicted_class, [])
@@ -175,6 +225,7 @@ def build_user_prompt(record: dict) -> str:
     review_assessment = compute_review_flag(record)
     features = _annotate_time_features(record["top_shap_features"])
     features = _annotate_protocol(features)
+    features = _relabel_value_fields(features)
     payload = {
         "flow_id": record["flow_id"],
         "predicted_class": predicted_class,
