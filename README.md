@@ -246,9 +246,9 @@ The LLM is used only to convert verified evidence into a human-readable report. 
 ## Authors
 
 **Tavleen Kaur** (20501012025)
-B.Tech Computer Science Engineering
-Indira Gandhi Delhi Technical University for Women (IGDTUW)
+- B.Tech Computer Science Engineering
+- Indira Gandhi Delhi Technical University for Women (IGDTUW)
 
 **Tanisha Sharma** (20201012025)
-B.Tech Computer Science Engineering
-Indira Gandhi Delhi Technical University for Women (IGDTUW)
+- B.Tech Computer Science Engineering
+- Indira Gandhi Delhi Technical University for Women (IGDTUW)
