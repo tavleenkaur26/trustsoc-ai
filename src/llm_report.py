@@ -21,15 +21,35 @@ def compute_review_flag(record: dict) -> dict:
     about: this flow's confidence, and the predicted class's historical
     precision. Returns a fact for the LLM to state, not a question for it
     to answer.
+
+    Fail-safe direction: if predicted_class isn't in class_reliability.json
+    (shouldn't normally happen, but could if the model or schema drifts),
+    treat it as precision=0.0, not 1.0. An unknown class must always trigger
+    review - silently assuming perfect reliability for something we have no
+    data on is the wrong failure direction for a SOC tool.
+
+    Design note: because PRECISION_THRESHOLD (0.80) is set above Bot's
+    measured precision (0.63, see class_reliability.json), every Bot
+    prediction is flagged for review regardless of this flow's confidence.
+    This is intentional, not a bug - Bot's precision ceiling means even a
+    99% confident single-flow prediction has a meaningfully elevated
+    false-positive risk at the class level, so class-level gating
+    overrides per-flow confidence for this class by design.
     """
     confidence = record.get("confidence", 0.0)
     predicted_class = record["predicted_class"]
-    precision = CLASS_RELIABILITY.get(predicted_class, {}).get("precision", 0.0)
+    class_stats = CLASS_RELIABILITY.get(predicted_class)
+    if class_stats is None:
+        precision = 0.0  # fail closed: unknown class -> always review
+    else:
+        precision = class_stats.get("precision", 0.0)
 
     reasons = []
     if confidence < CONFIDENCE_THRESHOLD:
         reasons.append(f"this flow's confidence ({confidence:.1%}) is below the {CONFIDENCE_THRESHOLD:.0%} threshold")
-    if precision < PRECISION_THRESHOLD:
+    if class_stats is None:
+        reasons.append(f"'{predicted_class}' is not a recognized class in class_reliability.json, so it cannot be verified as reliable")
+    elif precision < PRECISION_THRESHOLD:
         reasons.append(f"the {predicted_class} class has historically lower precision ({precision:.0%}), so false positives are more common for this class")
 
     return {
