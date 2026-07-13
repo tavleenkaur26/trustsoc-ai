@@ -226,16 +226,17 @@ with st.sidebar:
     if st.button("\u25B6 Run demo scan", use_container_width=True):
         st.session_state.uploaded_records = None
         st.session_state.scan_run = True
+        st.session_state.last_processed_file = None
 
     uploaded_file = st.file_uploader("Upload CSV", type=["csv"], label_visibility="collapsed")
     if uploaded_file is not None:
-        file_signature = f"{uploaded_file.name}_{uploaded_file.size}"
-        if st.session_state.get("last_processed_file") != file_signature:
+        st.caption(f"\U0001F4C4 {uploaded_file.name} ({uploaded_file.size/1024:.1f} KB) selected")
+        if st.button("\u25B6 Run scan on this file", use_container_width=True, type="primary"):
             with st.spinner("Running model + SHAP..."):
                 try:
                     st.session_state.uploaded_records = process_uploaded_csv(uploaded_file)
                     st.session_state.scan_run = True
-                    st.session_state.last_processed_file = file_signature
+                    st.session_state.last_processed_file = f"{uploaded_file.name}_{uploaded_file.size}"
                     st.session_state.upload_msg = f"Processed {len(st.session_state.uploaded_records)} flows from upload."
                     st.rerun()
                 except ModelNotAvailableError as e:

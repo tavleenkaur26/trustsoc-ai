@@ -69,8 +69,19 @@ STRICT RULES:
    review_required is false, you may still note it's good practice to spot-check, but
    never say review is "unnecessary" - simply state that it is not flagged as required.
 4. Explain in plain English what the SHAP features mean for this specific flow rather
-   than just repeating numbers. The predicted_class tells you what KIND of attack this
-   is - match your description to that, not to a generic template:
+   than just repeating numbers. Each feature has TWO separate numbers - do not confuse
+   them:
+   - "feature_value" is the actual measured reading for this flow (e.g. the real
+     packet length, the real duration). This is the number to quote when describing
+     what the traffic looked like.
+   - "shap_contribution" is how much that feature pushed the model toward this
+     prediction - NOT a measurement, NOT a probability, and NOT a "times more likely"
+     multiplier. Never quote shap_contribution as if it were the feature_value, and
+     never phrase it as "X times more likely." You may say a feature "contributed
+     strongly" or "was a minor factor" based on its magnitude, but do not state the
+     shap_contribution number as if it were the reading itself.
+   The predicted_class tells you what KIND of attack this is - match your description
+   to that, not to a generic template:
    - Only describe traffic as a "scan" or "scan probe" if predicted_class is PortScan.
      Never use "scan" or "scan probe" language for DoS/DDoS floods, brute-force
      attempts (FTP-Patator, SSH-Patator), Web Attack, or Bot - these are fundamentally
@@ -168,6 +179,25 @@ def _annotate_time_features(features: list) -> list:
     return annotated
 
 
+def _relabel_value_fields(features: list) -> list:
+    """
+    The LLM was repeatedly quoting shap_value as if it were the actual
+    feature reading (e.g. calling a SHAP contribution of 1.73 "the packet
+    length minimum" when the real reading was 53.0), and describing SHAP
+    values as probability multipliers ("9.1 times more likely"), which is
+    not what a SHAP value means. Fix: rename the keys so the two numbers
+    are unambiguous, and drop the old ambiguous names entirely.
+    """
+    relabeled = []
+    for f in features:
+        f = dict(f)
+        new_f = {"feature": f["feature"], "feature_value": f.pop("value"), "shap_contribution": f.pop("shap_value")}
+        # carry over any annotations already added (value_readable, protocol_name, _note)
+        new_f.update(f)
+        relabeled.append(new_f)
+    return relabeled
+
+
 def build_user_prompt(record: dict) -> str:
     predicted_class = record["predicted_class"]
     mitre = MITRE_LOOKUP.get(predicted_class, [])
@@ -175,6 +205,7 @@ def build_user_prompt(record: dict) -> str:
     review_assessment = compute_review_flag(record)
     features = _annotate_time_features(record["top_shap_features"])
     features = _annotate_protocol(features)
+    features = _relabel_value_fields(features)
     payload = {
         "flow_id": record["flow_id"],
         "predicted_class": predicted_class,
