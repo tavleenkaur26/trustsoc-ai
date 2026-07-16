@@ -418,8 +418,8 @@ elif nav == "Detection":
             ),
         },
     )
-    st.caption("Source/destination IP and port are omitted by design - dropped upstream as "
-               "identity/leakage-prone features (see src/data_prep.py).")
+    st.caption("Source/destination IP and port are intentionally omitted from this model - "
+           "they are leakage-prone identifiers, not genuine behavioral signals of an attack.")
 
     if event.selection and event.selection.get("rows"):
         idx = event.selection["rows"][0]
@@ -470,7 +470,7 @@ elif nav == "Detection":
                         st.error(f"Report generation failed: {e}")
 
                 if report:
-                    
+
                     review = report.get("review_assessment", {})
                     if review.get("review_required"):
                         st.error(f"⚠️ Manual review recommended — {review['review_reason']}")
@@ -496,8 +496,7 @@ elif nav == "Detection":
 # ---------------------------------------------------------------------------
 elif nav == "Model Insights":
     st.markdown('<div class="page-title">Model Insights</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-sub">Per-class reliability from Person 1\'s held-out evaluation.</div>', unsafe_allow_html=True)
-
+    st.markdown('<div class="page-sub">Per-class reliability from held-out test set evaluation.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-label">Model Reliability by Class (held-out test set)</div>', unsafe_allow_html=True)
     rel_df = pd.DataFrame(CLASS_RELIABILITY).T.reset_index()
     rel_df.columns = ["Class", "Precision", "Recall", "F1"]

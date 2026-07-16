@@ -12,14 +12,14 @@ DROP_COLS = ["Flow ID", "Source IP", "Destination IP", "Timestamp", "source_file
 
 
 class ModelNotAvailableError(Exception):
-    """Raised when Person 1's trained model files haven't been provided yet."""
+    """Raised when the trained model files haven't been provided yet."""
     pass
 
 
 def load_model_and_encoder():
     if not MODEL_PATH.exists() or not ENCODER_PATH.exists():
         raise ModelNotAvailableError(
-            f"Trained model not found. Ask Person 1 to export these two files "
+            f"Trained model not found. Export these two files "
             f"(joblib.dump) and place them in the models/ folder:\n"
             f"  - {MODEL_PATH.name}\n"
             f"  - {ENCODER_PATH.name}"
